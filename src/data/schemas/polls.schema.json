@@ -1,0 +1,58 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Election poll dataset",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["updatedAt", "polls"],
+  "properties": {
+    "updatedAt": { "type": ["string", "null"], "format": "date-time" },
+    "polls": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "id", "city", "election", "pollster", "sponsor", "fieldworkStart",
+          "fieldworkEnd", "publishedAt", "sampleSize", "population", "method",
+          "marginOfError", "candidateLineupId", "questionScenarioId", "questionText",
+          "candidates", "undecidedPercent", "sourceLabel", "sourceUrl", "isMock"
+        ],
+        "properties": {
+          "id": { "type": "string", "minLength": 1 },
+          "city": { "type": "string", "minLength": 1 },
+          "election": { "type": "string", "minLength": 1 },
+          "pollster": { "type": "string", "minLength": 1 },
+          "sponsor": { "type": ["string", "null"] },
+          "fieldworkStart": { "type": "string", "format": "date" },
+          "fieldworkEnd": { "type": "string", "format": "date" },
+          "publishedAt": { "type": "string", "format": "date" },
+          "sampleSize": { "type": ["integer", "null"], "minimum": 1 },
+          "population": { "type": "string", "minLength": 1 },
+          "method": { "type": ["string", "null"] },
+          "marginOfError": { "type": ["number", "null"], "minimum": 0, "maximum": 100 },
+          "candidateLineupId": { "type": "string", "minLength": 1 },
+          "questionScenarioId": { "type": "string", "minLength": 1 },
+          "questionText": { "type": "string", "minLength": 1 },
+          "candidates": {
+            "type": "array",
+            "minItems": 1,
+            "items": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": ["candidateId", "candidateName", "supportPercent"],
+              "properties": {
+                "candidateId": { "type": "string", "minLength": 1 },
+                "candidateName": { "type": "string", "minLength": 1 },
+                "supportPercent": { "type": "number", "minimum": 0, "maximum": 100 }
+              }
+            }
+          },
+          "undecidedPercent": { "type": ["number", "null"], "minimum": 0, "maximum": 100 },
+          "sourceLabel": { "type": "string", "minLength": 1 },
+          "sourceUrl": { "type": "string", "format": "uri" },
+          "isMock": { "type": "boolean" }
+        }
+      }
+    }
+  }
+}

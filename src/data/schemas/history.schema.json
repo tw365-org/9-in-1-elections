@@ -1,0 +1,53 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Election history dataset",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["elections"],
+  "properties": {
+    "elections": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "id", "city", "office", "electionDate", "eligibleVoters", "votesCast",
+          "turnoutRate", "winner", "sources"
+        ],
+        "properties": {
+          "id": { "type": "string", "minLength": 1 },
+          "city": { "type": "string", "minLength": 1 },
+          "office": { "type": "string", "minLength": 1 },
+          "electionDate": { "type": "string", "format": "date" },
+          "eligibleVoters": { "type": "integer", "minimum": 0 },
+          "votesCast": { "type": "integer", "minimum": 0 },
+          "turnoutRate": { "type": "number", "minimum": 0, "maximum": 100 },
+          "winner": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["name", "party", "votes"],
+            "properties": {
+              "name": { "type": "string", "minLength": 1 },
+              "party": { "type": "string", "minLength": 1 },
+              "votes": { "type": "integer", "minimum": 0 }
+            }
+          },
+          "sources": {
+            "type": "array",
+            "minItems": 1,
+            "items": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": ["label", "url", "supports"],
+              "properties": {
+                "label": { "type": "string", "minLength": 1 },
+                "url": { "type": "string", "format": "uri" },
+                "supports": { "type": "string", "minLength": 1 }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

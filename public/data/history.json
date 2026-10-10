@@ -1,0 +1,30 @@
+{
+  "elections": [
+    {
+      "id": "taipei-mayor-2022",
+      "city": "臺北市",
+      "office": "市長",
+      "electionDate": "2022-11-26",
+      "eligibleVoters": 2026769,
+      "votesCast": 1372179,
+      "turnoutRate": 67.7,
+      "winner": {
+        "name": "蔣萬安",
+        "party": "中國國民黨",
+        "votes": 575590
+      },
+      "sources": [
+        {
+          "label": "中選會：當選人名單公告",
+          "url": "https://web.cec.gov.tw/api/file/f420bdd8-9a89-458f-acc0-2370574270e0.pdf",
+          "supports": "當選人及得票數"
+        },
+        {
+          "label": "中選會：2022 年縣市長選舉人數、投票數與投票率統計",
+          "url": "https://web.cec.gov.tw/api/file/ce228705-c738-450c-9be9-761e3cdd94ca.pdf",
+          "supports": "臺北市選舉人數、投票數及投票率"
+        }
+      ]
+    }
+  ]
+}
