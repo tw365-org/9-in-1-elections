@@ -35,8 +35,9 @@ export function PollStatus({ polls, error }: PollStatusProps) {
           <div className="poll-latest-meta">
             <span>{newestPoll.pollster}</span>
             <span>調查至 {newestPoll.fieldworkEnd}</span>
-            {newestPoll.isMock ? <span className="pill pill-warning">模擬資料</span> : null}
+            {newestPoll.is_mock ? <span className="pill pill-warning">模擬資料</span> : null}
           </div>
+          <p className="poll-sample-size">調查期間 {newestPoll.fieldworkStart} 至 {newestPoll.fieldworkEnd}・{newestPoll.sampleSize === null ? "樣本數未提供" : `有效樣本 ${newestPoll.sampleSize.toLocaleString()} 人`}</p>
           <h3>{newestPoll.questionText}</h3>
           <ul className="candidate-list">
             {newestPoll.candidates.map((candidate) => (

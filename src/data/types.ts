@@ -24,7 +24,7 @@ export interface PollRecord {
   undecidedPercent: number | null;
   sourceLabel: string;
   sourceUrl: string;
-  isMock: boolean;
+  is_mock: boolean;
 }
 
 export interface PollDataset {

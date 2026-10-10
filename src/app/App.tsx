@@ -1,19 +1,21 @@
-import { useEffect, useState } from "react";
+import { lazy, Suspense, useEffect, useState } from "react";
 import { DataNotes } from "../components/DataNotes";
 import { HistoryCard } from "../components/HistoryCard";
 import { PollStatus } from "../components/PollStatus";
-import { PollTrend } from "../components/PollTrend";
 import { ScenarioPanel } from "../components/ScenarioPanel";
 import { loadElectionDataset } from "../data/history";
 import { getRecentPolls, loadPollDataset } from "../data/polls";
 import type { ElectionSummary, PollRecord } from "../data/types";
 
+const PollTrend = lazy(() => import("../components/PollTrend").then((module) => ({ default: module.PollTrend })));
+
 export function App() {
   const [polls, setPolls] = useState<PollRecord[]>([]);
+  const [pollUpdatedAt, setPollUpdatedAt] = useState<string | null>(null);
   const [election, setElection] = useState<ElectionSummary | null>(null);
   const [pollError, setPollError] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
-  const recentVerifiedPollCount = getRecentPolls(polls).filter((poll) => !poll.isMock).length;
+  const recentVerifiedPollCount = getRecentPolls(polls).filter((poll) => !poll.is_mock).length;
 
   useEffect(() => {
     let active = true;
@@ -22,6 +24,7 @@ export function App() {
       .then(([pollDataset, electionDataset]) => {
         if (!active) return;
         setPolls(pollDataset.polls);
+        setPollUpdatedAt(pollDataset.updatedAt);
         setElection(electionDataset.elections[0] ?? null);
       })
       .catch((error: unknown) => {
@@ -95,7 +98,9 @@ export function App() {
         <section className="dashboard-grid" aria-label="台北市長選情儀表板">
           <div className="dashboard-main">
             <PollStatus polls={polls} error={pollError} />
-            <PollTrend polls={polls} />
+            <Suspense fallback={<section className="panel trend-panel" aria-busy="true">正在載入民調趨勢圖…</section>}>
+              <PollTrend polls={polls} />
+            </Suspense>
           </div>
           <aside className="dashboard-aside" aria-label="歷史資料與情境工具">
             {election ? <HistoryCard election={election} /> : (
@@ -105,7 +110,7 @@ export function App() {
           </aside>
         </section>
 
-        <DataNotes />
+        <DataNotes pollUpdatedAt={pollUpdatedAt} polls={polls} election={election} />
       </main>
 
       <footer className="footer">

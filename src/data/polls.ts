@@ -38,7 +38,7 @@ function isPoll(value: unknown): value is PollRecord {
     isNullableNumber(value.undecidedPercent) &&
     typeof value.sourceLabel === "string" &&
     sourceUrlIsValid &&
-    typeof value.isMock === "boolean"
+    typeof value.is_mock === "boolean"
   );
 }
 
@@ -84,7 +84,7 @@ export function groupComparablePolls(polls: PollRecord[]): PollSeries[] {
 
   return [...groups.entries()].map(([id, records]) => ({
     id,
-    label: `${records[0]?.city ?? ""}・${records[0]?.population ?? ""}`,
+    label: `${records[0]?.city ?? ""}・${records[0]?.population ?? ""}・${records[0]?.questionText ?? ""}`,
     polls: [...records].sort((left, right) =>
       left.fieldworkStart.localeCompare(right.fieldworkStart),
     ),
